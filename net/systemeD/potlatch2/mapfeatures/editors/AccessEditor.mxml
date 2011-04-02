@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edit:SingleTagEditor
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:edit="net.systemeD.potlatch2.mapfeatures.editors.*"
+	xmlns:flexlib="flexlib.controls.*"
+	verticalGap="0"
+	width="100%"
+	toolTip="{fieldDescription}"
+	initialize="resetGrid()">
+
+  <mx:Label text="{fieldName}:"/>
+  <mx:HBox horizontalGap="0">
+    <edit:AccessBox id="general"/>
+    <edit:AccessBox id="motor"/>
+    <edit:AccessBox id="foot"/>
+    <edit:AccessBox id="cycle"/>
+    <edit:AccessBox id="horse"/>
+  </mx:HBox>
+
+  <mx:Script><![CDATA[
+    import net.systemeD.halcyon.connection.*;
+    import net.systemeD.potlatch2.*;
+    import mx.managers.PopUpManager;
+    import mx.core.*;
+
+    override protected function tagChanged(event:TagEvent):void {
+        super.tagChanged(event);
+        resetGrid();
+    }
+
+    private function resetGrid():void {
+        general.setLabel("Gen");
+        motor.setLabel("Mot");
+        foot.setLabel("Foot");
+        cycle.setLabel("Cyc");
+        horse.setLabel("Hrs");
+
+        if ( _entity == null )
+            return;
+
+        var generalTag:String = _entity.getTag("access");
+        general.setLabels(generalTag, generalTag);
+        motor.setLabels(_entity.getTag("motor_vehicle"), generalTag);
+        cycle.setLabels(_entity.getTag("bicycle"), generalTag);
+        foot.setLabels(_entity.getTag("foot"), generalTag);
+        horse.setLabels(_entity.getTag("horse"), generalTag);
+    }
+  ]]></mx:Script>
+</edit:SingleTagEditor>
+

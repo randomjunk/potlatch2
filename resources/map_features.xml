@@ -174,6 +174,7 @@ Quick documentation:
   <!-- Roads -->
 
   <inputSet id="majorRoad">
+    <inputSet ref="allAccess"/>
     <inputSet ref="names"/>
     <inputSet ref="roadRefs"/>
     <inputSet ref="roadRestrictions"/>
@@ -189,6 +190,7 @@ Quick documentation:
   
 
   <inputSet id="minorRoad">
+    <inputSet ref="allAccess"/>
     <inputSet ref="names"/>
     <inputSet ref="roadRestrictions"/>
     <inputSet ref="roadPhysical"/>
@@ -201,7 +203,13 @@ Quick documentation:
     <inputSet ref="permissions"/>
   </inputSet>
 
+  <inputSet id="allAccess">
+    <input type="access" presence="onTagMatch" name="Access" category="Restrictions"
+          description="Access restrictions for the path or road"/>
+  </inputSet>
+
   <inputSet id="path">
+    <inputSet ref="allAccess"/>
     <inputSet ref="simpleName"/>
     <inputSet ref="roadPhysical"/>
     <inputSet ref="cycle"/>

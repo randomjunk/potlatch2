@@ -46,7 +46,7 @@ package net.systemeD.potlatch2.mapfeatures.editors {
           dispatchEvent(new Event("tag_changed"));
       }
       
-      private function tagChanged(event:TagEvent):void {
+      protected function tagChanged(event:TagEvent):void {
           var tagVal:String = _entity.getTag(_factory.key);
           dispatchEvent(new Event("tag_changed"));
       }

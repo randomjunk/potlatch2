@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox
+	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:edit="net.systemeD.potlatch2.mapfeatures.editors.*"
+	xmlns:flexlib="flexlib.controls.*"
+	verticalGap="0" horizontalAlign="center">
+
+    <mx:Label id="titleLabel"/>
+    <mx:Button id="yesno"/>
+    <mx:Button id="type"/>
+
+  <mx:Script><![CDATA[
+
+    public function setLabel(text:String):void {
+        titleLabel.text = text;
+    }
+
+    public function setLabels(tagText:String, general:String):void {
+        var emptySet:Array = [""];
+        var yesSet:Array = ["yes", "permissive", "designated"];
+        var noSet:Array = ["no", "private"];
+
+        var isSet:Boolean = !emptySet.indexOf(tagText) >= 0 && tagText != null;
+        var hasAccess:Boolean = yesSet.indexOf(tagText) >= 0;
+        var hasNotAccess:Boolean = noSet.indexOf(tagText) >= 0;
+        var hasError:Boolean = !hasAccess && !hasNotAccess && isSet;
+
+        yesno.enabled = !hasError;
+        type.enabled = !hasError;
+        if ( hasError )
+            return;
+
+        var generalAccess:Boolean = yesSet.indexOf(general) >= 0;
+        var isAllowed:Boolean = hasAccess || (generalAccess && !isSet);
+        
+        yesno.label = isAllowed ? "y" : "n";
+        type.label = "-";
+
+        setInherited(yesno, !isSet);
+        setInherited(type, false);
+
+        if ( isAllowed ) {
+            var yes:Boolean = tagText == "yes";
+            var perm:Boolean = tagText == "permissive";
+            var desg:Boolean = tagText == "designated";
+            if ( perm || (general == "permissive" && !desg && !yes) ) {
+                type.label = "P";
+                setInherited(type, !perm);
+            } else if ( desg ) {
+                type.label = "D";
+            } else if ( yes ) {
+                type.label = "-";
+                setInherited(type, false);
+            }                
+        } else {
+            var priv:Boolean = tagText == "private";
+            var no:Boolean = tagText == "no";
+            if ( priv || (general == "private" && !no) ) {
+                type.label = "O";
+                setInherited(type, !priv);
+            } else if ( no || general == "no" ) {
+                type.label = "n";
+                setInherited(type, !no);
+            }
+        }
+
+    }
+
+    private function setInherited(button:Button, isInherited:Boolean):void {
+        button.setStyle("fillColors", isInherited ? [0xD0D030, 0xFFFFFF] : [0xE0E0E0, 0xFFFFFF]);
+    }
+  ]]></mx:Script>
+
+</mx:VBox>
+

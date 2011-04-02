@@ -15,10 +15,13 @@ package net.systemeD.potlatch2.mapfeatures {
 	    private static const PRIORITY_LOW:uint = 2;
 	    private static const PRIORITY_LOWEST:uint = 0;
 
-        /** Returns a specific subclass of EditorFactory as appropriate for the type: "freetext", "checkbox", "choice", "slider", "number", "speed", "route", "turn". Otherwise null. */
+        /** Returns a specific subclass of EditorFactory as appropriate for the type: 
+          * "freetext", "checkbox", "choice", "slider", "number", "speed", "access", "route", "turn".
+          * Otherwise null. */
         public static function createFactory(inputType:String, inputXML:XML):EditorFactory {
             switch ( inputType ) {
 
+            case "access": return new AccessEditorFactory(inputXML);
             case "freetext": return new FreeTextEditorFactory(inputXML);
             case "checkbox": return new CheckboxEditorFactory(inputXML);
             case "choice": return new ChoiceEditorFactory(inputXML);
